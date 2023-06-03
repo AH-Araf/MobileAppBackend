@@ -66,6 +66,47 @@ async function run(){
     });
 
 
+    //Get Users by Number
+    app.get('/appUserNumber', async (req, res) => {
+        let query = {};
+
+        if (req.query.number) {
+            query = {
+                number: req.query.number
+            }
+        }
+        const cursor = usersCollectionApp.find(query);
+        const review = await cursor.toArray();
+        res.send(review);
+    });
+
+     //Get Single User Details
+     app.get('/singleUser/:id', async (req, res) => {
+        const id = req.params.id;
+        const query = { _id: ObjectId(id) };
+        const b = await usersCollectionApp.findOne(query);
+        res.send(b);
+    });
+
+
+    //Update Users
+    app.patch('/updateUsers/:id', async (req, res) => {
+        const id = req.params.id;
+        const filter = { _id: ObjectId(id) };
+        const a = req.body;
+        const option = {upsert: true};
+        const updatedUser = {
+            $set: {
+                
+                password: a.password, 
+                    
+            }
+        }
+        const result = await usersCollectionApp.updateOne(filter, updatedUser, option);
+        res.send(result);
+    })
+
+
     //Get Customer Details
     app.get('/customerInfo', async (req, res) => {
         let query = {};

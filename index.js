@@ -90,7 +90,7 @@ async function run(){
 
 
     //Update Users
-    app.patch('/updateUsers/:id', async (req, res) => {
+    app.patch('/singleUser/:id', async (req, res) => {
         const id = req.params.id;
         const filter = { _id: ObjectId(id) };
         const a = req.body;
